@@ -1,0 +1,12 @@
+.iconfont {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-github:before {
+  content: '\e648';
+}
+
+.icon-boke:before {
+  content: '\e626';
+}
