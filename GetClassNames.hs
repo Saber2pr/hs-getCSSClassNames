@@ -11,10 +11,27 @@ trim :: String -> String
 trim = Prelude.filter (not . isSpace)
 
 getClassNames:: String -> [String]
-getClassNames text =
-   (map (\s -> trim s)
-    (map (\s -> head (splitOn ":" (init s)))
-      (filter (\s -> (s =~ reg) :: Bool)
-        (lines text))))
+-- getClassNames text =
+--    (map (\s -> trim s)
+--     (map (\s -> head (splitOn ":" (init s)))
+--       (filter (\s -> (s =~ reg) :: Bool)
+--         (lines text))))
+--   where
+--     reg = "(\\..*(\\{| \\{))"
+--
+-- getClassNames text =
+--    (map ((\s -> (trim . head . (splitOn ":") . init) s))
+--    (filter (\s -> (s =~ reg) :: Bool)
+--    (lines text)))
+--   where
+--     reg = "(\\..*(\\{| \\{))"
+getClassNames =
+   ((map (filter (not
+                . isSpace)
+        . head
+        . (splitOn ":")
+        . init))
+  . filter (=~reg)
+  . lines)
   where
     reg = "(\\..*(\\{| \\{))"

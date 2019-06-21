@@ -5,10 +5,16 @@ import System.Environment (getArgs)
 import GetClassNames (getClassNames)
 
 main :: IO ()
-main = do
-  args <- getArgs
-  case args of
-    [input] -> do
-      text <- readFile input
-      print (getClassNames text)
-    _ -> print "input one argument please"
+-- main = do
+--   args <- getArgs
+--   case args of
+--     [input] -> do
+--       text <- readFile input
+--       print (getClassNames text)
+--     _ -> print "input one argument please"
+main = getArgs >>=
+  (\args -> case args of
+              [input] ->
+                readFile input >>=
+                  print . getClassNames
+              _ -> print "input one argument please")
