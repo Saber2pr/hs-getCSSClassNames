@@ -34,4 +34,4 @@ getClassNames =
   . filter (=~reg)
   . lines)
   where
-    reg = "(\\..*(\\{| \\{))"
+    reg = "(\\..*\\{)"
