@@ -1,6 +1,5 @@
 -- saber2pr 2019-06-20T23:26:24.207Z
-module GetClassNames
-  (getClassNames)
+module GetClassNames (getClassNames)
   where
 
 import Text.Regex.Posix
@@ -20,7 +19,7 @@ getClassNames:: String -> [String]
 --   where
 --     reg = "(\\..*(\\{| \\{))"
 
--- 2. don's use `$`, it's too ugly!
+-- 2. the `$` is so ugly...
 -- getClassNames text =
 --    (map (filter $ not . isSpace)
 --     $ map (\s -> head $ splitOn ":" $ init s)
@@ -38,13 +37,27 @@ getClassNames:: String -> [String]
 --     reg = "(\\..*(\\{| \\{))"
 
 -- 4. compose all currys, not use lambda
-getClassNames =
-   ((map (filter (not
-                . isSpace)
-        . head
-        . (splitOn ":")
-        . init))
-  . filter (=~reg)
-  . lines)
-  where
-    reg = "(\\..*\\{)"
+-- getClassNames =
+--    (map $ trim.splitClassName.init)
+--   . filter (=~reg)
+--   . lines
+--   where
+--     reg = "(\\..*\\{)"
+--     trim = filter $ not.isSpace
+--     splitClassName = head.splitOn":"
+
+-- 5. use functor to refact it
+
+getClassNames str =
+  let -- create list
+      reg = "(\\..*\\{)"
+      toLS = filter (=~reg)
+            .lines
+      ls = toLS str
+
+  in -- list map
+  trim <$> className <$> init <$> ls
+
+  where -- operators
+    className = head.splitOn ":"
+    trim = filter $ not.isSpace
